@@ -1,15 +1,21 @@
 import{
     DataBase
 }from "./dataBase.js";
+import{
+    Swipe
+}from "./swipe.js";
 
 export const dataBase = new DataBase();
+export const swipeEvent = new Swipe();
 
 class Main{
     constructor(){
         $("window").resize(this.resize.bind(this));
         this.resize();
-
-        $(".sentence").bind("swipeleft",console.log("실행"));    
+        
+        $(window).bind("touchstart",(e)=>{
+            console.log(e.originalEvent.touches[0].clientX)
+        }) 
     }
 
     resize(){
@@ -19,17 +25,6 @@ class Main{
         $(".sentence p").css("top","50%").css("left","50%").css("transform","translate(-50%,-80%)");
     }
 
-    changePage(dir){
-        console.log("실행");
-        const index = dataBase.indexNum + dir;
-        if(index < 0 || index > dataBase.sentences.length){
-            return;
-        }
-        else{
-            dataBase.indexNum = index;
-            $(".sentence p").html(dataBase.sentences[index]);
-        }
-    }
 }
 
 $(window).load(()=>{
